@@ -1,10 +1,9 @@
 # Build server
-FROM ekidd/rust-musl-builder:stable AS server-builder
+FROM messense/rust-musl-cross:armv7-musleabihf AS server-builder
 ARG VERSION=0.1.0
 ADD . ./
-RUN sudo chown -R rust:rust .
 RUN sed -i -e "/^version/ s/[[:digit:]].[[:digit:]].[[:digit:]]/$VERSION/" Cargo.toml
-RUN cargo build --release --target x86_64-unknown-linux-musl --features docker
+RUN cargo build --release --features docker
 
 # Build frontend
 FROM node:lts-alpine as frontend-builder
@@ -21,7 +20,7 @@ RUN npm run build
 FROM alpine:latest
 EXPOSE 15825
 RUN apk --no-cache add ca-certificates
-COPY --from=server-builder  /home/rust/src/target/x86_64-unknown-linux-musl/release/duck /usr/local/bin/
+COPY --from=server-builder  /home/rust/src/target/armv7-unknown-linux-musleabihf/release/duck /usr/local/bin/
 COPY --from=frontend-builder /app/dist /usr/local/bin/web
 WORKDIR /usr/local/bin
 ENTRYPOINT ["duck"]
