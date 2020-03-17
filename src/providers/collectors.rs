@@ -28,4 +28,5 @@ pub struct CollectorInfo {
     pub id: String,
     pub enabled: bool,
     pub provider: BuildProvider,
+    pub filter: Option<Vec<String>>,
 }

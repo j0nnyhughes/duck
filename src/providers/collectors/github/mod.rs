@@ -37,6 +37,7 @@ impl<T: HttpClient + Default> GitHubCollector<T> {
                     Option::Some(e) => e,
                 },
                 provider: BuildProvider::AzureDevOps,
+                filter: config.branches.clone(),
             },
         };
     }
@@ -59,9 +60,15 @@ impl<T: HttpClient + Default> Collector for GitHubCollector<T> {
     ) -> DuckResult<()> {
         let response = self.client.get_builds(&self.http)?;
 
+        let mut workflow_runs = response.workflow_runs;
+
+        if let Some(filter) = &self.info.filter {
+            workflow_runs.retain(|w| filter.contains(&w.branch))
+        }
+
         // Convert the workflow run to a Duck build representation.
         let mut builds = Vec::<Build>::new();
-        for run in response.workflow_runs.iter() {
+        for run in workflow_runs.iter() {
             builds.push(
                 BuildBuilder::new()
                     .build_id(run.id.to_string())
@@ -125,6 +132,7 @@ mod tests {
             owner: "spectresystems".to_owned(),
             repository: "duck".to_owned(),
             workflow: "pull_request.yml".to_owned(),
+            branches: None,
             credentials: GitHubCredentials::Basic {
                 username: "foo".to_owned(),
                 password: "lol".to_owned(),

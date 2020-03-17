@@ -26,6 +26,7 @@ impl CollectorLoader for AzureDevOpsConfiguration {
                     Option::Some(e) => e,
                 },
                 provider: BuildProvider::AzureDevOps,
+                filter: None,
             },
         }))
     }

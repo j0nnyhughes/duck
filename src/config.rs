@@ -376,6 +376,8 @@ pub struct GitHubConfiguration {
     pub credentials: GitHubCredentials,
     /// # The GitHub Actions workflow
     pub workflow: String,
+    /// # The GitHub branches
+    pub branches: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, JsonSchema, Clone)]

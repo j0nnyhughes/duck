@@ -43,6 +43,7 @@ impl<T: HttpClient + Default> AppVeyorCollector<T> {
                     Option::Some(e) => e,
                 },
                 provider: BuildProvider::AppVeyor,
+                filter: None,
             },
         }
     }

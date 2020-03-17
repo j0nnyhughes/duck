@@ -86,6 +86,7 @@ mod tests {
                     id: "dummy".to_owned(),
                     enabled: true,
                     provider: BuildProvider::GitHub,
+                    filter: None,
                 },
             }
         }

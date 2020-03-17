@@ -45,7 +45,8 @@ mod tests {
                             "username": "${GITHUB_USERNAME}",
                             "password": "${GITHUB_PASSWORD}"
                         }
-                    }
+                    },
+                    "branches": [ "${GITHUB_BRANCH}_1", "${GITHUB_BRANCH}_2" ]
                 }
             },
             {
@@ -153,6 +154,7 @@ mod tests {
         variables.add("GITHUB_WORKFLOW", "workflow.yml");
         variables.add("GITHUB_USERNAME", "patrik");
         variables.add("GITHUB_PASSWORD", "hunter1!");
+        variables.add("GITHUB_BRANCH", "MyBranch");
         variables.add("OCTOPUS_ID", "octopus");
         variables.add("OCTOPUS_HOST", "localhost");
         variables.add("OCTOPUS_PORT", "9000");
@@ -225,7 +227,8 @@ mod tests {
         assert_eq!("spectresystems", github.owner);
         assert_eq!("duck", github.repository);
         assert_eq!("workflow.yml", github.workflow);
-        assert_eq!("workflow.yml", github.workflow);
+        assert_eq!("MyBranch_1", github.branches.as_ref().unwrap()[0]);
+        assert_eq!("MyBranch_2", github.branches.as_ref().unwrap()[1]);
         assert_eq!("patrik", username);
         assert_eq!("hunter1!", password);
     }

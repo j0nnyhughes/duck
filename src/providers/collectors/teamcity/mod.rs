@@ -27,6 +27,7 @@ impl CollectorLoader for TeamCityConfiguration {
                     Option::Some(e) => e,
                 },
                 provider: BuildProvider::TeamCity,
+                filter: None,
             },
         }))
     }

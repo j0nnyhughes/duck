@@ -27,6 +27,7 @@ impl CollectorLoader for OctopusDeployConfiguration {
                     Option::Some(e) => e,
                 },
                 provider: BuildProvider::OctopusDeploy,
+                filter: None,
             },
         }))
     }
